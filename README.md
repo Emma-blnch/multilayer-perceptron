@@ -26,3 +26,10 @@ Explore the cleaned dataset (prints a summary, saves graphs to `outputs/`):
 ```sh
 python scripts/explore_data.py [data/data_clean.csv] [--outdir outputs/]
 ```
+
+Split the cleaned dataset into a training set and a validation set
+(stratified by diagnosis, `--seed` for a repeatable split):
+
+```sh
+python scripts/split_data.py [data/data_clean.csv] [--ratio 0.8] [--seed 42]
+```
