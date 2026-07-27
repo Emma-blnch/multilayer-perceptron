@@ -46,8 +46,8 @@ def check(rows):
 
 
 def main():
-    src = sys.argv[1] if len(sys.argv) > 1 else "data.csv"
-    dst = sys.argv[2] if len(sys.argv) > 2 else "data_clean.csv"
+    src = sys.argv[1] if len(sys.argv) > 1 else "data/data.csv"
+    dst = sys.argv[2] if len(sys.argv) > 2 else "data/data_clean.csv"
 
     rows = load_rows(src)
     errors = check(rows)
