@@ -12,8 +12,8 @@ def load_split(path):
     """Load a cleaned/split csv, return (ids, X, labels)."""
     df = pd.read_csv(path)
     ids = df["id"].to_numpy()
-    labels = df["diagnosis"].to_numpy()
-    X = df.drop(columns=["id", "diagnosis"]).to_numpy(dtype=np.float64)
+    labels = df["diagnosis"].to_numpy()  # M/B labels
+    X = df.drop(columns=["id", "diagnosis"]).to_numpy(dtype=np.float64)  # matrice des features
     return ids, X, labels
 
 

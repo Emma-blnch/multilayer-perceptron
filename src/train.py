@@ -1,8 +1,4 @@
 """Train the multilayer perceptron on the WDBC dataset.
-
-Step 1 (this file, so far): load the train/valid splits, one-hot encode the
-diagnosis, and standardize the features using stats fitted on the training
-set only. The network/backprop/training loop are added in later steps.
 """
 import argparse
 import sys
@@ -34,7 +30,7 @@ def main():
     _, X_train, labels_train = load_split(train_path)
     _, X_valid, labels_valid = load_split(valid_path)
 
-    y_train = one_hot(labels_train)
+    y_train = one_hot(labels_train)  # convertit M/B en vecteurs one-hot
     y_valid = one_hot(labels_valid)
 
     mean, std = fit_normalization(X_train)

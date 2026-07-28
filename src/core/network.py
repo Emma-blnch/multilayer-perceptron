@@ -18,8 +18,7 @@ class DenseLayer:
 def build_network(input_size, hidden_layers, output_size=2, hidden_activation="sigmoid", seed=None):
     """Build the list of DenseLayer from an input size and a list of hidden layer sizes.
 
-    hidden_layers: e.g. [24, 24] for two hidden layers of 24 neurons each (the
-    subject requires at least 2 hidden layers by default). The output layer is
+    hidden_layers: e.g. [24, 24] for two hidden layers of 24 neurons each. The output layer is
     fixed to `output_size` neurons with softmax, as required by the subject.
     """
     rng = np.random.default_rng(seed)
