@@ -1,6 +1,6 @@
-"""Explore the WDBC dataset: summary stats + graphs (class balance, distributions,
-correlations, boxplots) saved as PNGs, as recommended by the subject before
-implementing the MLP."""
+"""Explore the WDBC dataset: summary stats + graphs (class balance,
+distributions, correlations, boxplots) saved as PNGs, as recommended
+by the subject before implementing the MLP."""
 import argparse
 import sys
 from pathlib import Path
@@ -9,8 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# Categorical slots 1 (blue) and 2 (orange) from the validated palette,
-# assigned by class identity and kept fixed across every chart.
+
 COLOR_B = "#2a78d6"
 COLOR_M = "#eb6834"
 CLASS_COLORS = {"B": COLOR_B, "M": COLOR_M}
@@ -25,7 +24,8 @@ SURFACE = "#fcfcfb"
 STATS = ["mean", "se", "worst"]
 FEATURES = [
     "radius", "texture", "perimeter", "area", "smoothness",
-    "compactness", "concavity", "concave_points", "symmetry", "fractal_dimension",
+    "compactness", "concavity", "concave_points",
+    "symmetry", "fractal_dimension",
 ]
 
 
@@ -98,7 +98,8 @@ def plot_feature_distributions(df, outdir, stat="mean"):
         style_axes(ax)
     fig.suptitle(f"Feature distributions by diagnosis ({stat})", fontsize=12, y=1.08)
     handles, labels = axes.flat[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 1.02), ncol=2, frameon=False, fontsize=9)
+    fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 1.02),
+    ncol=2, frameon=False, fontsize=9)
     fig.tight_layout()
     fig.savefig(outdir / f"distributions_{stat}.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
@@ -165,7 +166,8 @@ def plot_top_correlated_scatter(df, outdir, n=4):
         for label in ("B", "M"):
             subset = df[df["diagnosis"] == label]
             ax.scatter(
-                subset[feat], subset["diagnosis"].map({"B": 0, "M": 1}) + np.random.uniform(-0.05, 0.05, len(subset)),
+                subset[feat], subset["diagnosis"].map({"B": 0, "M": 1}) +
+                np.random.uniform(-0.05, 0.05, len(subset)),
                 color=CLASS_COLORS[label], s=25, alpha=0.6, edgecolors="none",
                 label=CLASS_LABELS[label], zorder=3,
             )
@@ -175,7 +177,8 @@ def plot_top_correlated_scatter(df, outdir, n=4):
         style_axes(ax)
     fig.suptitle(f"Top {n} features most correlated with diagnosis", fontsize=12, y=1.10)
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 1.02), ncol=2, frameon=False, fontsize=9)
+    fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 1.02),
+    ncol=2, frameon=False, fontsize=9)
     fig.tight_layout()
     fig.savefig(outdir / "top_correlated_scatter.png", dpi=150, bbox_inches="tight")
     plt.close(fig)

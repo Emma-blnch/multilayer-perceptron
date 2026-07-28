@@ -1,4 +1,5 @@
-"""Data loading and preprocessing shared by the training and prediction programs."""
+"""Data loading and preprocessing shared by
+the training and prediction programs."""
 import json
 
 import numpy as np

@@ -3,7 +3,8 @@ import numpy as np
 
 
 class DenseLayer:
-    """A fully connected layer: input_size -> n_neurons, plus its activation name."""
+    """A fully connected layer: input_size -> n_neurons,
+    plus its activation name."""
 
     def __init__(self, input_size, n_neurons, activation, rng):
         # small random weights, scaled down by input_size so the weighted sums

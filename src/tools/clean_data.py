@@ -1,10 +1,11 @@
-"""Add headers to the raw WDBC data.csv and sanity-check it, producing data_clean.csv."""
+"""Add headers to the raw WDBC data.csv and sanity-check it,producing data_clean.csv."""
 import csv
 import sys
 
 FEATURES = [
     "radius", "texture", "perimeter", "area", "smoothness",
-    "compactness", "concavity", "concave_points", "symmetry", "fractal_dimension",
+    "compactness", "concavity", "concave_points",
+    "symmetry", "fractal_dimension",
 ]
 STATS = ["mean", "se", "worst"]
 
