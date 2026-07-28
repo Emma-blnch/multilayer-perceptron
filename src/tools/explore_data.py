@@ -189,7 +189,7 @@ def main():
 
     csv_path = Path(args.csv)
     if not csv_path.exists():
-        sys.exit(f"error: {csv_path} not found (run scripts/clean_data.py first)")
+        sys.exit(f"error: {csv_path} not found (run src/clean_data.py first)")
 
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)

@@ -51,7 +51,7 @@ def main():
 
     src = Path(args.csv)
     if not src.exists():
-        sys.exit(f"error: {src} not found (run scripts/clean_data.py first)")
+        sys.exit(f"error: {src} not found (run src/clean_data.py first)")
     if not 0 < args.ratio < 1:
         sys.exit("error: --ratio must be between 0 and 1")
 

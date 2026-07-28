@@ -15,7 +15,7 @@ pip install -r requirements.txt
 ## Project structure
 
 ```
-scripts/
+src/
   split_data.py        # 1. mandatory: splits data_clean.csv into train/valid
   train.py              # 2. mandatory: trains the MLP on the split dataset
   predict.py            # 3. mandatory: loads a trained model and predicts
@@ -39,27 +39,27 @@ Clean the raw dataset (adds headers, sanity-checks values, writes
 `data/data_clean.csv`):
 
 ```sh
-python scripts/tools/clean_data.py [data/data.csv] [data/data_clean.csv]
+python src/tools/clean_data.py [data/data.csv] [data/data_clean.csv]
 ```
 
 Explore the cleaned dataset (prints a summary, saves graphs to `outputs/`):
 
 ```sh
-python scripts/tools/explore_data.py [data/data_clean.csv] [--outdir outputs/]
+python src/tools/explore_data.py [data/data_clean.csv] [--outdir outputs/]
 ```
 
 Split the cleaned dataset into a training set and a validation set
 (stratified by diagnosis, `--seed` for a repeatable split):
 
 ```sh
-python scripts/split_data.py [data/data_clean.csv] [--ratio 0.8] [--seed 42]
+python src/split_data.py [data/data_clean.csv] [--ratio 0.8] [--seed 42]
 ```
 
 Train the network on the split dataset (writes the normalization stats to
 `data/normalization.json`):
 
 ```sh
-python scripts/train.py [--train data/data_train.csv] [--valid data/data_valid.csv] \
+python src/train.py [--train data/data_train.csv] [--valid data/data_valid.csv] \
     [--hidden-layers 24 24] [--activation sigmoid] [--seed 42]
 ```
 

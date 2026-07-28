@@ -29,7 +29,7 @@ def main():
 
     train_path, valid_path = Path(args.train), Path(args.valid)
     if not train_path.exists() or not valid_path.exists():
-        sys.exit(f"error: {train_path} / {valid_path} not found (run scripts/split_data.py first)")
+        sys.exit(f"error: {train_path} / {valid_path} not found (run src/split_data.py first)")
 
     _, X_train, labels_train = load_split(train_path)
     _, X_valid, labels_valid = load_split(valid_path)
