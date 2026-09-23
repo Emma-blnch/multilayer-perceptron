@@ -1,7 +1,5 @@
 """Data loading and preprocessing shared by
 the training and prediction programs."""
-import json
-
 import numpy as np
 import pandas as pd
 
@@ -13,7 +11,8 @@ def load_split(path):
     df = pd.read_csv(path)
     ids = df["id"].to_numpy()
     labels = df["diagnosis"].to_numpy()  # M/B labels
-    X = df.drop(columns=["id", "diagnosis"]).to_numpy(dtype=np.float64)  # matrice des features
+    X = df.drop(columns=["id", "diagnosis"]).to_numpy(dtype=np.float64)
+    # matrice des features
     return ids, X, labels
 
 
@@ -35,14 +34,3 @@ def fit_normalization(X):
 
 def apply_normalization(X, mean, std):
     return (X - mean) / std
-
-
-def save_normalization(path, mean, std):
-    with open(path, "w") as f:
-        json.dump({"mean": mean.tolist(), "std": std.tolist()}, f)
-
-
-def load_normalization(path):
-    with open(path) as f:
-        data = json.load(f)
-    return np.array(data["mean"]), np.array(data["std"])

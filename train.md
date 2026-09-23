@@ -51,3 +51,26 @@ Stocker l'historique de ces métriques (nécessaire pour les courbes finales).
 9. À la fin de l'entraînement
 Tracer les deux courbes d'apprentissage (loss et accuracy, train vs valid) — obligatoire selon le sujet.
 Sauvegarder le modèle sur disque : l'architecture (nombre de couches, tailles, activations) + les poids/biais appris + les paramètres de normalisation, pour que le programme de prédiction puisse tout recharger tel quel.
+
+### Bonus
+À faire seulement une fois la partie obligatoire terminée et testée de bout en bout (le bonus n'est évalué que si l'obligatoire est parfait).
+Tout repose sur le dict `history` (une liste par métrique, une entrée par epoch) déjà rempli par train.py.
+
+1. Historique des métriques ✅ (core/history.py)
+À la fin de train.py, sauvegarder `history` en JSON (ex: history/<nom>.json), avec les hyperparamètres (couches, activation, learning_rate, batch_size, epochs, seed) pour savoir à quel modèle correspond chaque fichier.
+Ajouter un argument `--name` (ou nom généré automatiquement à partir des hyperparamètres).
+
+2. Plusieurs métriques ✅ (core/metrics.py, reste à les réutiliser dans predict.py)
+Module core/metrics.py codé à la main avec numpy : confusion matrix (TP/FP/FN/TN, M = classe positive), accuracy, precision, recall, F1.
+Les calculer à chaque epoch sur train ET valid, les ajouter à `history`.
+Les réutiliser dans predict.py pour afficher un rapport complet en plus de la binary cross-entropy.
+Soutenance : expliquer pourquoi le recall compte ici (rater un cancer malin coûte plus cher qu'une fausse alerte).
+
+3. Plusieurs courbes sur le même graphe
+Script séparé src/tools/compare_models.py hist1.json hist2.json ... : charge les historiques et trace val_loss / val_accuracy de chaque modèle sur le même graphe, légende construite à partir des hyperparamètres.
+Démo : comparer 24 24 vs 64 32 16, sigmoid vs relu, différents learning rates.
+
+4. Early stopping (optionnel)
+Arguments `--patience N` (désactivé par défaut, le sujet montre un entraînement jusqu'à la dernière epoch) et éventuellement `--min-delta`.
+Dans la boucle : si val_loss s'améliore → garder une COPIE des poids (W.copy(), b.copy(), sinon on garde une référence qui continue d'être modifiée) et remettre le compteur à 0 ; sinon incrémenter le compteur, arrêter quand il atteint patience.
+À la fin, restaurer les meilleurs poids avant la sauvegarde du modèle.
