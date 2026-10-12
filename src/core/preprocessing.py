@@ -20,7 +20,7 @@ def one_hot(labels):
     """Encode 'M'/'B' labels as one-hot rows, in CLASSES order."""
     y = np.zeros((len(labels), len(CLASSES)), dtype=np.float64)
     for col, cls in enumerate(CLASSES):
-        y[labels == cls, col] = 1.0
+        y[labels == cls, col] = 1.0  # pour chaque classe met un 1 dans sa colonne sur toutes lignes qui ont ce label
     return y
 
 

@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 from core.history import new_history, run_name, save_history
-from core.metrics import METRICS, compute_metrics, confusion_matrix
+from core.metrics import METRICS, compute_metrics, confusion_matrix, print_confusion_matrix
 from core.network import backpropagation, build_network, feedforward, gradient_descent, save_model
 from core.plots import plot_learning_curves
 from core.preprocessing import apply_normalization, fit_normalization, load_split, one_hot
@@ -53,11 +53,11 @@ def main():
     X_train = apply_normalization(X_train, mean, std)
     X_valid = apply_normalization(X_valid, mean, std)
 
-    print(f"x_train shape : {X_train.shape}")
+    print(f"x_train shape : {X_train.shape}")  # taille de matrice (nbr lignes, nrb colonnes) = (nbr patiens, nbr features)
     print(f"x_valid shape : {X_valid.shape}")
 
     network = build_network(
-        input_size=X_train.shape[1],
+        input_size=X_train.shape[1],  # nbr colonnes de x_trin donc les features
         hidden_layers=args.hidden_layers,
         hidden_activation=args.activation,
         seed=args.seed,
@@ -110,9 +110,9 @@ def fit(network, X_train, y_train, X_valid, y_valid, epochs, batch_size, learnin
         order = rng.permutation(len(X_train))
         for start in range(0, len(order), batch_size):
             batch = order[start:start + batch_size]
-            probs = feedforward(network, X_train[batch])
-            backpropagation(network, probs, y_train[batch])
-            gradient_descent(network, learning_rate)
+            probs = feedforward(network, X_train[batch])  # reseau predit
+            backpropagation(network, probs, y_train[batch])  # calcule erreur rapport à y et l'effet de chaque poids sur l'erreur (les gradients)
+            gradient_descent(network, learning_rate)  # corrige poids d'un petit pas
 
         record_epoch(history, network, X_train, y_train, X_valid, y_valid)
         print(f"epoch {epoch:0{width}d}/{epochs} - loss: {history['loss'][-1]:.4f}"
@@ -138,11 +138,9 @@ def print_final_report(history, probs_valid, y_valid):
     for name in METRICS:
         print(f"  {name:<10} {history[name][-1]:>8.4f} {history['val_' + name][-1]:>8.4f}")
 
-    tp, fp, fn, tn = confusion_matrix(probs_valid, y_valid)
     print("\nConfusion matrix (valid):")
-    print(f"  {'':<9} {'pred M':>7} {'pred B':>7}")
-    print(f"  {'true M':<9} {tp:>7} {fn:>7}")
-    print(f"  {'true B':<9} {fp:>7} {tn:>7}\n")
+    print_confusion_matrix(*confusion_matrix(probs_valid, y_valid))
+    print()
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ EPSILON = 1e-15  # keeps log() away from 0 in the loss
 
 def sigmoid(Z):
     Z = np.clip(Z, -500, 500)  # évite l'overflow de exp() sur des valeurs extrêmes
-    return 1 / (1 + np.exp(-Z))
+    return 1 / (1 + np.exp(-Z))  # ecrase Z entre 0 et 1
 
 
 def sigmoid_derivative(Z):
@@ -21,7 +21,7 @@ def sigmoid_derivative(Z):
 
 
 def relu(Z):
-    return np.maximum(0, Z)
+    return np.maximum(0, Z)  # valeurs neg deviennent 0, positives restent tel quel
 
 
 def relu_derivative(Z):
@@ -32,7 +32,7 @@ def softmax(Z):
     # soustraire le max de chaque ligne ne change pas le résultat mais évite
     # l'overflow de exp() (exp(1000) = inf)
     exps = np.exp(Z - Z.max(axis=1, keepdims=True))
-    return exps / exps.sum(axis=1, keepdims=True)
+    return exps / exps.sum(axis=1, keepdims=True)  # transforme ligne de nbr en proba donc la sum est 1
 
 
 ACTIVATIONS = {"sigmoid": sigmoid, "relu": relu, "softmax": softmax}
@@ -137,7 +137,7 @@ def backpropagation(network, probs, y):
     """
     # softmax + cross-entropy: la dérivée de la loss par rapport au Z de la
     # couche de sortie se simplifie en (probs - y). Divisé par n car la loss
-    # est une moyenne sur les exemples.
+    # est une moyenne sur les exemples (sinon ca changerait avec taille du batch).
     dZ = (probs - y) / len(y)
     for i in reversed(range(len(network))):
         dA_prev = network[i].backward(dZ)
@@ -162,6 +162,6 @@ def binary_cross_entropy(probs, y):
     p_n / y_n are taken on the M column (index 1): with a 2-neuron softmax the
     B column is just 1 - p_n, so it carries no extra information.
     """
-    p = np.clip(probs[:, 1], EPSILON, 1 - EPSILON)
-    t = y[:, 1]
+    p = np.clip(probs[:, 1], EPSILON, 1 - EPSILON)  # proba de M predite
+    t = y[:, 1]  # y = 1 si patient vraiment M
     return -np.mean(t * np.log(p) + (1 - t) * np.log(1 - p))
