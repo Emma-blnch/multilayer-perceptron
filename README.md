@@ -1,8 +1,38 @@
 # multilayer-perceptron
 
-42 project: implement a multilayer perceptron from scratch to classify breast
-cancer tumors (malignant/benign) from the Wisconsin Diagnostic Breast Cancer
-(WDBC) dataset. See `en.subject.pdf` for the full subject.
+A neural network built **from scratch in Python with NumPy** (no ML framework)
+to classify breast cancer tumors as malignant or benign, using the Wisconsin
+Diagnostic Breast Cancer (WDBC) dataset. 42 Paris project, see `en.subject.pdf`
+for the full subject.
+
+## Results
+
+With the default settings (2 hidden layers of 24 neurons, sigmoid, 70 epochs,
+mini-batches of 8, learning rate 0.05, seed 42), on the validation set
+(113 patients):
+
+| metric | value |
+|---|---|
+| accuracy | 98.2 % |
+| recall (malignant) | 100 % (no malignant tumor missed) |
+| precision (malignant) | 95.5 % |
+| binary cross-entropy | 0.048 |
+
+![learning curves](docs/learning_curves.png)
+
+## How it works
+
+- **Network** (`src/core/network.py`): fully connected layers, sigmoid or ReLU
+  hidden activations, softmax output, weights initialized with a scaled normal
+  distribution.
+- **Training**: feedforward, backpropagation written by hand with the chain
+  rule (softmax + cross-entropy simplified to `probs - y`), mini-batch gradient
+  descent with reshuffling at every epoch.
+- **Data**: cleaning and sanity checks, stratified train/valid split,
+  normalization fitted on the training set only and saved with the model so
+  predictions use exactly the same scaling.
+- **Evaluation**: accuracy, precision, recall, F1 and confusion matrix at every
+  epoch, history saved as JSON to compare several trainings on the same graph.
 
 ## Setup
 
